@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mocap"
+dynamic = ["version"]
+authors = [
+  {name = "Hugo Pauget Ballesteros", email = "hugo@paugesteros.com"},
+]
+requires-python = ">=3.9"
+dependencies = [
+    "pandas",
+    "numpy",
+    "librosa",
+    "scipy",
+    "soundfile",
+]
+description = "Python library for reading and analyzing violin MoCap and audio data."
+readme = "readme.md"
+
+[tool.hatch.version]
+path = "mocap/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mocap"]

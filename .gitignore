@@ -1,1 +1,16 @@
-raw/
+# Data
+data/raw/
+data/processed/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+.env
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
