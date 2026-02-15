@@ -9,7 +9,7 @@ A Dataset of Violin Motion Capture takes, along with some Python code to manipul
 `pip install git+https://github.com/hugo_paugesteros/mocap-dataset.`
 
 ## Usage
-```{python}
+```python
 # Load the dataset metadata
 metadata = pd.read_csv("data/processed/dataset.csv")
 
