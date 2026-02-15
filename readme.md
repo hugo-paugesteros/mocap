@@ -6,7 +6,7 @@ A Dataset of Violin Motion Capture takes, along with some Python code to manipul
 1. Download the data :
 
 2. Install the Python package
-`pip install git+https://github.com/hugo_paugesteros/mocap-dataset.`
+`pip install git+https://github.com/hugo-paugesteros/mocap`
 
 ## Usage
 ```python
