@@ -58,8 +58,8 @@ for i, tak_file in enumerate(tak_files, 1):
     dst = PROCESSED_DIR / "Phase 1" / violin / excerpt / str(take_num)
     dst.mkdir(exist_ok=True, parents=True)
 
-    shutil.copy(tak_file, dst / "take.tak")
-    shutil.copy(RAW_PHASE1_DIR / f"flat/audio/{i}.wav", dst / "mocap_audio.wav")
+    # shutil.copy(tak_file, dst / "take.tak")
+    shutil.copy(RAW_PHASE1_DIR / f"flat/audio/{i}.wav", dst / "recording.wav")
     shutil.copy(RAW_PHASE1_DIR / f"flat/tracking/{i}.csv", dst / "markers.csv")
 
     dataset.append(
@@ -121,11 +121,11 @@ for i, csv_file in enumerate(csv_files, 1):
     )
 
     shutil.copyfile(csv_file, dst / "markers.csv")
-    shutil.copy(
-        RAW_PHASE2_DIR
-        / "SMD_exp_2_version_trié"
-        / Path("/".join(parts)).with_suffix(".tak"),
-        dst / "take.tak",
-    )
+    # shutil.copy(
+    #     RAW_PHASE2_DIR
+    #     / "SMD_exp_2_version_trié"
+    #     / Path("/".join(parts)).with_suffix(".tak"),
+    #     dst / "take.tak",
+    # )
 
-pd.DataFrame(dataset).to_csv(PROCESSED_DIR / "dataset.csv")
+pd.DataFrame(dataset).to_csv(PROCESSED_DIR / "dataset.csv", index=False)

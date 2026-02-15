@@ -1,17 +1,51 @@
 import pandas as pd
 from pathlib import Path
 import csv
+import librosa
+
+
+@pd.api.extensions.register_series_accessor("mocap")
+class MocapAccessor:
+    """
+    A custom accessor for pandas Series (i.e., DataFrame rows) that lets you
+    easily convert a row from your metadata CSV into a fully-featured `Take` object.
+    """
+
+    def __init__(self, pandas_obj):
+        self._validate(pandas_obj)
+        self._obj = pandas_obj
+
+    @staticmethod
+    def _validate(obj):
+        if "folder" not in obj.index:
+            raise AttributeError("The Series must have a 'folder' attribute.")
+
+    def to_take(self, root_path="data/processed"):
+        """
+        Brings the row "to life" by creating a Take object from it.
+
+        Args:
+            root_path (str or Path): The path to the root of the processed dataset.
+
+        Returns:
+            Take: An initialized Take object ready for analysis.
+        """
+        return Take(self._obj, root=root_path)
 
 
 class Take:
-    def __init__(self, row):
-        pass
+    def __init__(self, row, root="/data/processed"):
+        self.folder = Path(row.folder)
+        self.metadata = row
+        self.root = Path(root)
+        self.mocap = MocapTake(self.root / self.folder / "markers.csv")
 
-    def audio():
-        pass
-
-    def mocap():
-        pass
+    @property
+    def audio(self):
+        path = self.root / self.folder / "recording.wav"
+        if path.exists():
+            return librosa.load(path, sr=None)
+        return None, None
 
 
 class MocapTake:
@@ -21,7 +55,9 @@ class MocapTake:
         self.metadata = {}
 
         self._load_metadata()
-        self.data = pd.read_csv(self.file_path, header=[0, 1, 2, 3], skiprows=1)
+        self.data = pd.read_csv(
+            self.file_path, header=[0, 1, 2, 3], skiprows=1, skip_blank_lines=True
+        )
 
         self.data.set_index([self.data.columns[0], self.data.columns[1]], inplace=True)
         self.data.index.names = ["Frame", "Time"]
@@ -65,11 +101,9 @@ class MocapTake:
         return self.data.rigid_body_marker
 
 
-# metadata = pd.read_csv("data/processed/dataset.csv")
-# mocap_take = MocapTake(
-#     Path("data/processed") / Path(metadata.iloc[0].folder) / "markers.csv"
-# )
-# print(mocap_take.data)
-# take.audio
-# take.mocap.markers
-# take.mocap.data
+if __name__ == "__main__":
+    metadata = pd.read_csv("data/processed/dataset.csv")
+    take = metadata.iloc[0].mocap.to_take(root_path="data/processed")
+    print(take.audio)
+    print(take.mocap.metadata)
+    print(take.mocap.data)

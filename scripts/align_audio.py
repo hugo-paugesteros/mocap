@@ -45,7 +45,7 @@ def correlate(row, recording, expected_offset=None):
     SR = 5000
     MARGIN = 10
     y_small, sr = librosa.load(
-        Path("data/processed") / row.folder / "mocap_audio.wav", sr=SR
+        Path("data/processed") / row.folder / "recording.wav", sr=SR
     )
     if expected_offset:
         start_search = max(0, expected_offset - MARGIN)
@@ -118,7 +118,7 @@ if __name__ == "__main__":
                     duration=end_time - start_time,
                 )
                 sf.write(
-                    Path("data/processed") / row.folder / "recorder_audio.wav",
+                    Path("data/processed") / row.folder / "recording.wav",
                     y,
                     sr,
                 )

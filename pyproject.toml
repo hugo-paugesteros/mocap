@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling >= 1.26"]
+requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
@@ -20,7 +20,7 @@ description = "Python library for reading and analyzing violin MoCap and audio d
 readme = "readme.md"
 
 [tool.hatch.version]
-path = "mocap/__init__.py"
+path = "src/mocap/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mocap"]
